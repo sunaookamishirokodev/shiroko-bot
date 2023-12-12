@@ -15,34 +15,17 @@ module.exports = {
   run: async (client, interaction) => {
     if (!interaction.isCommand()) return;
 
-    if (
-      config.handler.commands.slash === false &&
-      interaction.isChatInputCommand()
-    )
-      return;
-    if (
-      config.handler.commands.user === false &&
-      interaction.isUserContextMenuCommand()
-    )
-      return;
-    if (
-      config.handler.commands.message === false &&
-      interaction.isMessageContextMenuCommand()
-    )
-      return;
+    if (config.handler.commands.slash === false && interaction.isChatInputCommand()) return;
+    if (config.handler.commands.user === false && interaction.isUserContextMenuCommand()) return;
+    if (config.handler.commands.message === false && interaction.isMessageContextMenuCommand()) return;
 
-    const command = client.collection.interactioncommands.get(
-      interaction.commandName
-    );
+    const command = client.collection.interactioncommands.get(interaction.commandName);
 
     if (!command) return;
 
     try {
       if (command.options?.developers) {
-        if (
-          config.users?.developers?.length > 0 &&
-          !config.users?.developers?.includes(interaction.user.id)
-        ) {
+        if (config.users?.developers?.length > 0 && !config.users?.developers?.includes(interaction.user.id)) {
           await interaction.reply({
             content:
               config.messageSettings.developerMessage !== undefined &&

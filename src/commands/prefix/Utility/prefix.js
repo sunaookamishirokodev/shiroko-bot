@@ -6,7 +6,7 @@ const GuildSchema = require('../../../schemas/GuildSchema');
 module.exports = {
     structure: {
         name: 'prefix',
-        description: 'Get/Set/Default prefix',
+        description: 'Get/Set prefix',
         aliases: [],
         permissions: 'Administrator'
     },

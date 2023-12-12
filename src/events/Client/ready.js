@@ -11,7 +11,7 @@ module.exports = {
      * @returns 
      */
     run: (_, client) => {
-
+        
         log('Logged in as: ' + client.user.tag, 'done');
 
     }

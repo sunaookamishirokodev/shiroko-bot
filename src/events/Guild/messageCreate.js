@@ -17,6 +17,23 @@ module.exports = {
   run: async (client, message) => {
     if (message.author.bot || message.channel.type === ChannelType.DM) return;
 
+    if (message.content === `<@${client.user.id}>`) {
+      let prefix = config.handler.prefix;
+
+      if (config.handler?.mongodb?.toggle) {
+        try {
+          const data = await GuildSchema.findOne({ guild: message.guildId });
+  
+          if (data && data?.prefix) prefix = data.prefix;
+        } catch {
+          prefix = config.handler.prefix;
+        }
+      }
+      return message.reply(
+        `Hello <@${message.member.id}>! Prefix của **${client.user.username}** hiện tại là \`${prefix}\` nhé:3 Nếu có bất kì vấn đề gì liên quan đến bot hãy liên hệ \`${client.application.owner.username}\` để được giúp đỡ nhé<3`
+      );
+    }
+
     if (!config.handler.commands.prefix) return;
 
     let prefix = config.handler.prefix;
@@ -40,16 +57,11 @@ module.exports = {
 
     let command =
       client.collection.prefixcommands.get(commandInput) ||
-      client.collection.prefixcommands.get(
-        client.collection.aliases.get(commandInput)
-      );
+      client.collection.prefixcommands.get(client.collection.aliases.get(commandInput));
 
     if (command) {
       try {
-        if (
-          command.structure?.permissions &&
-          !message.member.permissions.has(command.structure?.permissions)
-        ) {
+        if (command.structure?.permissions && !message.member.permissions.has(command.structure?.permissions)) {
           await message.reply({
             content:
               config.messageSettings.notHasPermissionMessage !== undefined &&

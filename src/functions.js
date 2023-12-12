@@ -1,4 +1,6 @@
 const chalk = require("chalk");
+const config = require("./config");
+const GuildSchema = require("./schemas/GuildSchema");
 
 /**
  * Logs a message with optional styling.
