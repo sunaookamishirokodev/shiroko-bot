@@ -23,14 +23,14 @@ module.exports = {
       if (config.handler?.mongodb?.toggle) {
         try {
           const data = await GuildSchema.findOne({ guild: message.guildId });
-  
+
           if (data && data?.prefix) prefix = data.prefix;
         } catch {
           prefix = config.handler.prefix;
         }
       }
       return message.reply(
-        `Hello <@${message.member.id}>! Prefix của **${client.user.username}** hiện tại là \`${prefix}\` nhé:3 Nếu có bất kì vấn đề gì liên quan đến bot hãy liên hệ \`${client.application.owner.username}\` để được giúp đỡ nhé<3`
+        `Hello <@${message.member.id}>! The current prefix of **${client.user.username}** is \`${prefix}\` :3 If you have any problems related to the bot, please contact  \`${client.application.owner.username}\` for help <3`
       );
     }
 

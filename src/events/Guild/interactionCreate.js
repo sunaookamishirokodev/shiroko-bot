@@ -7,7 +7,6 @@ const cooldown = new Map();
 module.exports = {
   event: "interactionCreate",
   /**
-   *
    * @param {ExtendedClient} client
    * @param {import('discord.js').Interaction} interaction
    * @returns

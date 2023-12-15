@@ -1,4 +1,4 @@
-const { Client, Partials, Collection, GatewayIntentBits } = require("discord.js");
+const { Client, Partials, Collection, GatewayIntentBits, PresenceUpdateStatus, ActivityType } = require("discord.js");
 const config = require("../config");
 const commands = require("../handlers/commands");
 const events = require("../handlers/events");
@@ -23,15 +23,6 @@ module.exports = class extends Client {
     super({
       intents: [Object.keys(GatewayIntentBits)],
       partials: [Object.keys(Partials)],
-      presence: {
-        activities: [
-          {
-            name: "Hmm",
-            type: 4,
-            state: "Beta test",
-          },
-        ],
-      },
     });
   }
 
@@ -43,6 +34,9 @@ module.exports = class extends Client {
     if (config.handler.mongodb.toggle) mongoose();
     await this.login(process.env.CLIENT_TOKEN || config.client.token);
     await this.application.fetch();
+    this.user.setUsername("Sunaookami Shiroko");
+    this.user.setActivity("Cùng xem Shiroko code ngu đến cỡ nào:()", { type: ActivityType.Custom });
+    this.user.setStatus(PresenceUpdateStatus.DoNotDisturb);
 
     if (config.handler.deploy) deploy(this, config);
   };

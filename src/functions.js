@@ -1,6 +1,4 @@
 const chalk = require("chalk");
-const config = require("./config");
-const GuildSchema = require("./schemas/GuildSchema");
 
 /**
  * Logs a message with optional styling.
@@ -21,11 +19,9 @@ const log = (string, style) => {
 };
 
 /**
- * Formats a timestamp.
- *
- * @param {number} time - The timestamp in milliseconds.
- * @param {import('discord.js').TimestampStylesString} style - The timestamp style.
- * @returns {string} - The formatted timestamp.
+ * @param {number} time
+ * @param {import('discord.js').TimestampStylesString} style
+ * @returns {string}
  */
 const time = (time, style) => {
   return `<t:${Math.floor(time / 1000)}${style ? `:${style}` : ""}>`;

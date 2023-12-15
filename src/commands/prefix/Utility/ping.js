@@ -1,5 +1,6 @@
 const { Message } = require("discord.js");
 const ExtendedClient = require("../../../class/ExtendedClient");
+const GuildSchema = require("../../../schemas/GuildSchema");
 
 module.exports = {
   structure: {
@@ -14,11 +15,24 @@ module.exports = {
    * @param {string[]} args
    */
   run: async (client, message, args) => {
-    const mess = await message.reply(`${client.user.username} đang khởi động não...`);
-    const ping = mess.createdTimestamp - message.createdTimestamp;
-    const newMess = `API Latency: ${client.ws.ping}\n${client.user.username} Ping: ${ping}ms ${
-      ping <= 150 ? ":green_circle:" : ping <= 500 ? ":yellow_circle:" : ":red_circle:"
-    }`;
-    await mess.edit({ content: newMess });
+    const apiLatency = Math.round(client.ws.ping);
+
+    const dbStart = Date.now();
+    await GuildSchema.findOne({ guild: message.guildId });
+    const dbLatency = Date.now() - dbStart;
+
+    const wsStart = Date.now();
+    const mess = await message.reply(`${client.user.username} Preparing...`);
+    const wsLatency = Date.now() - wsStart;
+
+    await mess.edit(
+      `**Pong** :ping_pong:` +
+        "\n" +
+        `> - Websocket Latency: \`${wsLatency}ms\`` +
+        "\n" +
+        `> - API Latency: \`${apiLatency}ms\`` +
+        "\n" +
+        `> - Database Latency: \`${dbLatency}ms\``
+    );;
   },
 };
